@@ -1,0 +1,11 @@
+form {
+    background: white;
+    overflow-y: auto;
+    padding: 0 5px;
+    
+    .field-group {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }    
+}

@@ -1,0 +1,11 @@
+.field {
+	display: flex;
+	flex-flow: column;
+	align-items: flex-start;
+	min-width: 75px;
+}
+
+small { 
+	color: red; 
+	margin-top: 1px;
+}
