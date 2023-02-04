@@ -1,0 +1,20 @@
+.field {
+	display: flex;
+	flex-flow: column;
+	align-items: flex-start;
+	flex: 1;
+	min-width: 125px;
+	margin: 0 5px;
+
+	&:not(.field-group .field) {
+		margin-top: 15px;
+	}
+
+	&.submit { margin-top: auto; }
+	
+	small { 
+		color: red; 
+		margin-top: 5px;
+	}	
+}
+

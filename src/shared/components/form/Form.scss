@@ -1,0 +1,21 @@
+form {
+    border-radius: 5px;
+    overflow-y: auto;
+    scrollbar-color: black lightgray;
+    scrollbar-width: thin;
+    
+    .field-group {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-end;
+        justify-content: space-between;
+        margin: 10px 0;
+
+        .field {
+            &.select { 
+                transform: translateY(-5px);
+            }
+        }
+        
+    }    
+}

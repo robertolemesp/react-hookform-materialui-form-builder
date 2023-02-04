@@ -1,0 +1,26 @@
+* { 
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  body {
+    background: white;
+    border-radius: 0.25rem;
+    font-family: 'Roboto';
+    height: 100%;
+
+    #root {
+      height: 100%;
+    }
+  }
+}
+
+main {
+  padding: 0 25px;
+
+  h1 {
+    margin-top: 35px;
+  }
+}
+
