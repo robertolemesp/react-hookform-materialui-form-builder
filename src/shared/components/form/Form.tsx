@@ -8,11 +8,11 @@ import type { IFormField } from './field/Field'
 import './Form.scss'
 
 interface FormProps {
+	groupClassName?: string
   fields: IFormField[] | IFormField[][]
 	values?: any
-	isSubmitting?: boolean
 	onChange?: (field: any, value: any, selectOptionIndex?: number) => void
-  onSubmit: (data: any) => Promise<any>
+  onSubmit?: (data: any) => Promise<any>
 	onClose?: () => void
 	style?: CSSProperties
 }
@@ -21,7 +21,7 @@ interface FieldErrorMessage {
 	[key: string]: string
 }
 
-const CustomForm: FC<FormProps> = ({ fields, onSubmit, onChange, isSubmitting, values = {}, style = {} }: FormProps) => {
+const CustomForm: FC<FormProps> = ({ fields, onSubmit, onChange, groupClassName, values = {}, style = {} }: FormProps) => {
 	const { control, handleSubmit, formState: { errors }, getValues, trigger } = useForm({
 		defaultValues: values,
 		mode: "onChange"
@@ -30,18 +30,14 @@ const CustomForm: FC<FormProps> = ({ fields, onSubmit, onChange, isSubmitting, v
 	const errorMessagesByField: FieldErrorMessage = { username: 'Informe um email válido', quantity: 'Quantidade máxima excedida.' }
 	const errorMessagesByErrorType: FieldErrorMessage = { required: 'Campo obrigatório.' }
 	
-	const handleFormFieldChange = (field: string, value: any, selectOptionIndex?: number) => { 
-		if (onChange) {
-			onChange(field, value, selectOptionIndex)
-			return
-		}
-	}
+	const handleFormFieldChange = (field: string, value: any, selectOptionIndex?: number): void => 
+		onChange && onChange(field, value, selectOptionIndex)
+	
 
-	const handleFieldSubmit = async (): Promise<void> => 
+	const handleFieldSubmit = async (): Promise<any> => 
 		trigger()
 			.then(async result => {
-				if (result)
-					await onSubmit(getValues())
+				result && onSubmit && await onSubmit(getValues())
 			})	
 	
 	const getFieldErrorMsg = (searchValue: string): string  => {
@@ -85,13 +81,13 @@ const CustomForm: FC<FormProps> = ({ fields, onSubmit, onChange, isSubmitting, v
 
   return <form 
 		className="flex flex-column" 
-		onSubmit={handleSubmit(onSubmit)} 
+		onSubmit={handleSubmit(onSubmit || (async () => {}))} 
 		style={style}
 	>	
 
 		{ fields.map((field: any, i) => 
 			Array.isArray(field) ? 
-				<div className="field-group" key={i}>
+				<div className={`${groupClassName}`} key={i}>
 					{ field.map(subField => generateField(subField, `${i}${subField.name}`))}
 				</div>
 			: 

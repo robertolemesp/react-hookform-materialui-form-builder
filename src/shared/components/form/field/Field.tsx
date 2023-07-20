@@ -8,6 +8,7 @@ import { Cancel } from '@mui/icons-material'
 
 import './Field.scss'
 
+
 interface FieldOptions {
 	label: string
 	value: any
@@ -31,6 +32,7 @@ interface FormFieldProps {
 }
 
 export interface IFormField {
+	className?: string
 	name?: string
 	type: 'text' | 'number' | 'date' | 'password' | 'select' | 'checkbox' | 'radioGroup' | 'submit' | 'element'
 	label?: string
@@ -44,8 +46,9 @@ export interface IFormField {
 	element?: JSX.Element
 }
 
-const FormField: FC<FormFieldProps> = ({ 
-	field: { 
+const FormField: FC<FormFieldProps> = ({
+	field: {
+		className, 
 		name, 
 		label, 
 		type,
@@ -114,7 +117,7 @@ const FormField: FC<FormFieldProps> = ({
 		}
 		
 		return <>
-			<label style={{ marginBottom: 5, color: 'black' }}>{ label }</label>
+			<label style={{ marginBottom: 5 }}>{ label }</label>
 			{ selectValue.length > 0 && multiple && <Box sx={{ 
 				display: 'flex', 
 				flexWrap: 'wrap', 
@@ -144,7 +147,6 @@ const FormField: FC<FormFieldProps> = ({
 				multiple={multiple}
 				MenuProps={SelectMenuOptions}
 				disabled={disabled}
-				//onChange={(e: SelectChangeEvent<any>) => handleSelectFieldChange(field.name, e.target.value)}
 			> 
 				{ options.map((option: FieldOptions, i: number) => 
 					<MenuItem 
@@ -164,72 +166,66 @@ const FormField: FC<FormFieldProps> = ({
 		className={`field ${type}`}
 		style={containerStyle}>
 		{ type === 'submit' ? 
-			<Button 
-				style={{ 
-					width: '100%', 
-					height: 55, 
-					background: isSubmitEnabled ? 'black' : 'gray', 
-					margin: '40px auto 15px',
-					...style
-				}} 
-				onClick={handleSubmitButtonClick}
-				disabled={!isSubmitEnabled || isSubmitting}
-				loading={isSubmitting}
-			>
-				{ label }
-			</Button>	
+				<Button 
+					className={className}
+					style={{ 
+						background: isSubmitEnabled ? appTheme.palette.primary.main : 'gray',
+						...style
+					}} 
+					onClick={handleSubmitButtonClick}
+					disabled={!isSubmitEnabled || isSubmitting}
+					loading={isSubmitting}
+				>
+					{ label }
+				</Button>	
 		: type === 'element' ? 
-			element
+				element
 		:
- 			<Controller
-				name={name}
-				control={control}
-				defaultValue={formatFn ? formatFn(defaultValue) : defaultValue}
-				rules={rules}
-				render={({ field }) =>
-					['text', 'number', 'date', 'password'].includes(type) ? 
-						<TextField
-							type={type}
-							label={label}
-							disabled={disabled}
-							style={{ 
-								minHeight: 60, 
-								width: '100%', 
-								...style 
-							}}
-							{ ...(type === 'date' && { InputLabelProps: { shrink: true } }) }
-							{ ...{ 
-									...field, 
-									value: formatFn ? formatFn(field.value) : field.value 
+				<Controller
+					name={name}
+					control={control}
+					defaultValue={formatFn ? formatFn(defaultValue) : defaultValue}
+					rules={rules}
+					render={({ field }) =>
+						['text', 'number', 'date', 'password'].includes(type) ? 
+							<TextField
+								type={type}
+								label={label}
+								disabled={disabled}
+								style={{ 
+									minHeight: 60, 
+									width: '100%', 
+									...style 
+								}}
+								{ ...(type === 'date' && { InputLabelProps: { shrink: true } }) }
+								{ ...{ 
+										...field, 
+										value: formatFn ? formatFn(field.value) : field.value 
+									}
 								}
-							}
-						/>
-
+							/>
 					: type === 'select' ? 
-						generateSelect(field)
+							generateSelect(field)
 
 					: type === 'checkbox' ?
-						<>
-							<label>{ label }</label>
-							<Checkbox 
-								onChange={(e) => field.onChange(e.target.checked)}
-								checked={!!field.value}
-								style={style}
-								disabled={disabled}
-							/>
-						</>
+							<div style={style}>
+								<label>{ label }</label>
+								<Checkbox 
+									onChange={(e) => field.onChange(e.target.checked)}
+									checked={!!field.value}
+									style={style}
+									disabled={disabled}
+								/>
+							</div>
 
 					: type === 'radioGroup' && options?.length ?
-					<>
-						<label>{ label }</label>
-						<RadioGroup 
-							aria-label={label} 
-							style={style} 
-							{...field}
-						>
-							{ options.map((option: FieldOptions, i: number) => <FormControlLabel key={i} label={option.label} value={option.value} control={<Radio />} />) }
-						</RadioGroup>
-					</>
+							<RadioGroup 
+								aria-label={label} 
+								style={style} 
+								{...field}
+							>
+								{ options.map((option: FieldOptions, i: number) => <FormControlLabel key={i} label={option.label} value={option.value} control={<Radio />} />) }
+							</RadioGroup>
 					: <></>
 				}
 			/>

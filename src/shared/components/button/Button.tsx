@@ -7,6 +7,7 @@ import Loader from '../loader/Loader'
 import './Button.scss'
 
 interface ButtonProps {
+  className?: string
   children?: ReactNode
   onClick: () => void
   style?: CSSProperties
@@ -16,7 +17,8 @@ interface ButtonProps {
 }
 
 const Button: FC<ButtonProps> = ({ children, onClick, type, disabled, loading, style }: ButtonProps): JSX.Element => 
-  <MUIButton 
+  <MUIButton
+    className={className} 
     style={{ 
       background: 'black',
       color: 'white',

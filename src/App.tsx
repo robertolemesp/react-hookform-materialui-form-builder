@@ -126,7 +126,6 @@ const App: FC = (): JSX.Element => {
       onSubmit={handleFormSubmit}
       style={{ height: '100%', width: '100%' }}
     />
-
   </main>
 }
 
