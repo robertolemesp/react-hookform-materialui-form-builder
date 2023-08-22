@@ -3,8 +3,8 @@ import React, { CSSProperties, FC, useState } from 'react'
 import { Control, Controller, FieldValues } from 'react-hook-form'
 
 import Button from '../../button/Button'
-import { TextField, Select, Checkbox, Radio, RadioGroup, FormControlLabel, MenuItem, Box, Chip, OutlinedInput } from '@mui/material'
-import { Cancel } from '@mui/icons-material'
+import { TextField, Select, Checkbox, Radio, RadioGroup, FormControlLabel, MenuItem, Box, Chip, OutlinedInput, IconButton } from '@mui/material'
+import { Visibility, VisibilityOff, Cancel } from '@mui/icons-material'
 
 import './Field.scss'
 
@@ -71,6 +71,7 @@ const FormField: FC<FormFieldProps> = ({
 		
 	const [ selectValue, setSelectValue ] = useState<any>(Array.isArray(defaultValue) ? defaultValue : [])
 	const [ isSubmitting, setIsSubmitting ] = useState<boolean>(false)
+	const [ isPasswordExplicit, setIsPasswordExplicit ] = useState<boolean>(false)
 
 	const handleSubmitButtonClick = async () => {
 		if (onSubmit) {
@@ -103,6 +104,10 @@ const FormField: FC<FormFieldProps> = ({
 		if (onChange) 
 			onChange(field, value, optionIndex)
 	}
+
+	const isPasswordField: boolean = type === 'password'
+
+	const handlePasswordExplicityIconClick = () => setIsPasswordExplicit(!isPasswordExplicit)
 	
 	const generateSelect = (field: any) => {
 		const ITEM_HEIGHT = 48
@@ -147,6 +152,7 @@ const FormField: FC<FormFieldProps> = ({
 				multiple={multiple}
 				MenuProps={SelectMenuOptions}
 				disabled={disabled}
+				//onChange={(e: SelectChangeEvent<any>) => handleSelectFieldChange(field.name, e.target.value)}
 			> 
 				{ options.map((option: FieldOptions, i: number) => 
 					<MenuItem 
@@ -161,71 +167,79 @@ const FormField: FC<FormFieldProps> = ({
 		</>
 	}	
 	
-
 	return <div 
 		className={`field ${type}`}
 		style={containerStyle}>
 		{ type === 'submit' ? 
-				<Button 
-					className={className}
-					style={{ 
-						background: isSubmitEnabled ? appTheme.palette.primary.main : 'gray',
-						...style
-					}} 
-					onClick={handleSubmitButtonClick}
-					disabled={!isSubmitEnabled || isSubmitting}
-					loading={isSubmitting}
-				>
-					{ label }
-				</Button>	
+			<Button 
+				className={className}
+				style={{ 
+					background: isSubmitEnabled ? 'black' : 'gray',
+					...style
+				}} 
+				onClick={handleSubmitButtonClick}
+				disabled={!isSubmitEnabled || isSubmitting}
+				loading={isSubmitting}
+			>
+				{ label }
+			</Button>	
 		: type === 'element' ? 
-				element
+			element
 		:
-				<Controller
-					name={name}
-					control={control}
-					defaultValue={formatFn ? formatFn(defaultValue) : defaultValue}
-					rules={rules}
-					render={({ field }) =>
-						['text', 'number', 'date', 'password'].includes(type) ? 
-							<TextField
-								type={type}
-								label={label}
-								disabled={disabled}
-								style={{ 
-									minHeight: 60, 
-									width: '100%', 
-									...style 
-								}}
-								{ ...(type === 'date' && { InputLabelProps: { shrink: true } }) }
-								{ ...{ 
-										...field, 
-										value: formatFn ? formatFn(field.value) : field.value 
-									}
+ 			<Controller
+				name={name}
+				control={control}
+				defaultValue={formatFn ? formatFn(defaultValue) : defaultValue}
+				rules={rules}
+				render={({ field }) =>
+					['text', 'number', 'date', 'password'].includes(type) ? 
+						<TextField
+							type={isPasswordField && isPasswordExplicit ? 'text' : type }
+							{ ...isPasswordField && { 
+								InputProps: { 
+									endAdornment: <IconButton onClick={handlePasswordExplicityIconClick} color='primary'> 
+										{ isPasswordExplicit ? <Visibility /> : <VisibilityOff /> }
+									</IconButton> 
 								}
-							/>
+							}}
+							label={label}
+							disabled={disabled}
+							style={{ 
+								minHeight: 60, 
+								width: '100%', 
+								...style 
+							}}
+							{ ...(type === 'date' && { InputLabelProps: { shrink: true } }) }
+							{ ...{ 
+									...field, 
+									value: formatFn ? formatFn(field.value) : field.value 
+								}
+							}
+						/>
+
 					: type === 'select' ? 
-							generateSelect(field)
+						generateSelect(field)
 
 					: type === 'checkbox' ?
-							<div style={style}>
-								<label>{ label }</label>
-								<Checkbox 
-									onChange={(e) => field.onChange(e.target.checked)}
-									checked={!!field.value}
-									style={style}
-									disabled={disabled}
-								/>
-							</div>
+						<div style={style}>
+							<Checkbox 
+								onChange={(e) => field.onChange(e.target.checked)}
+								checked={!!field.value}
+								style={style}
+								disabled={disabled}
+							/>
+							<label>{ label }</label>
+						</div>
 
 					: type === 'radioGroup' && options?.length ?
-							<RadioGroup 
-								aria-label={label} 
-								style={style} 
-								{...field}
-							>
-								{ options.map((option: FieldOptions, i: number) => <FormControlLabel key={i} label={option.label} value={option.value} control={<Radio />} />) }
-							</RadioGroup>
+						<RadioGroup 
+							aria-label={label} 
+							style={style} 
+							{...field}
+						>
+							{ options.map((option: FieldOptions, i: number) => <FormControlLabel key={i} label={option.label} value={option.value} control={<Radio />} />) }
+						</RadioGroup>
+
 					: <></>
 				}
 			/>
