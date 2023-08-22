@@ -8,7 +8,6 @@ import type { IFormField } from './field/Field'
 import './Form.scss'
 
 interface FormProps {
-	groupClassName?: string
   fields: IFormField[] | IFormField[][]
 	values?: any
 	onChange?: (field: any, value: any, selectOptionIndex?: number) => void
@@ -21,7 +20,7 @@ interface FieldErrorMessage {
 	[key: string]: string
 }
 
-const CustomForm: FC<FormProps> = ({ fields, onSubmit, onChange, groupClassName, values = {}, style = {} }: FormProps) => {
+const CustomForm: FC<FormProps> = ({ fields, onSubmit, onChange, values = {}, style = {} }: FormProps) => {
 	const { control, handleSubmit, formState: { errors }, getValues, trigger } = useForm({
 		defaultValues: values,
 		mode: "onChange"
@@ -30,14 +29,18 @@ const CustomForm: FC<FormProps> = ({ fields, onSubmit, onChange, groupClassName,
 	const errorMessagesByField: FieldErrorMessage = { username: 'Informe um email válido', quantity: 'Quantidade máxima excedida.' }
 	const errorMessagesByErrorType: FieldErrorMessage = { required: 'Campo obrigatório.' }
 	
-	const handleFormFieldChange = (field: string, value: any, selectOptionIndex?: number): void => 
-		onChange && onChange(field, value, selectOptionIndex)
-	
+	const handleFormFieldChange = (field: string, value: any, selectOptionIndex?: number) => { 
+		if(onChange) {
+			onChange(field, value, selectOptionIndex)
+			return
+		}
+	}
 
-	const handleFieldSubmit = async (): Promise<any> => 
+	const handleFieldSubmit = async (): Promise<void> => 
 		trigger()
 			.then(async result => {
-				result && onSubmit && await onSubmit(getValues())
+				if (result && onSubmit)
+					await onSubmit(getValues())
 			})	
 	
 	const getFieldErrorMsg = (searchValue: string): string  => {
@@ -87,8 +90,10 @@ const CustomForm: FC<FormProps> = ({ fields, onSubmit, onChange, groupClassName,
 
 		{ fields.map((field: any, i) => 
 			Array.isArray(field) ? 
-				<div className={`${groupClassName}`} key={i}>
-					{ field.map(subField => generateField(subField, `${i}${subField.name}`))}
+				<div { ...typeof field[0] === 'string' && { className: field[0] } } key={i}>
+					{ field.map(subField => 
+						typeof subField !== 'string' ? generateField(subField, `${i}${subField.name}`) : <></>
+					)}
 				</div>
 			: 
 				generateField(field, i)
