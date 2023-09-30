@@ -2,12 +2,14 @@
 import React, { FC, CSSProperties, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 
-import FormField from './field/Field'
-import type { IFormField } from './field/Field'
+import FormField from './field'
+import type { IFormField } from './field'
 
-import './Form.scss'
+import './index.scss'
 
 interface FormProps {
+	className?: string
+	rowClassName?: string
   fields: IFormField[] | IFormField[][]
 	values?: any
 	onChange?: (field: any, value: any, selectOptionIndex?: number) => void
@@ -20,7 +22,7 @@ interface FieldErrorMessage {
 	[key: string]: string
 }
 
-const CustomForm: FC<FormProps> = ({ fields, onSubmit, onChange, values = {}, style = {} }: FormProps) => {
+const CustomForm: FC<FormProps> = ({ className, rowClassName, fields, onChange, onSubmit = (async () => {}), values = {}, style = {} }: FormProps) => {
 	const { control, handleSubmit, formState: { errors }, getValues, trigger } = useForm({
 		defaultValues: values,
 		mode: "onChange"
@@ -38,7 +40,7 @@ const CustomForm: FC<FormProps> = ({ fields, onSubmit, onChange, values = {}, st
 
 	const handleFieldSubmit = async (): Promise<void> => 
 		trigger()
-			.then(async result => {
+			.then(async (result: any) => {
 				if (result && onSubmit)
 					await onSubmit(getValues())
 			})	
@@ -82,15 +84,14 @@ const CustomForm: FC<FormProps> = ({ fields, onSubmit, onChange, values = {}, st
 	if (!fields.length)
 		return null
 
-  return <form 
-		className="flex flex-column" 
-		onSubmit={handleSubmit(onSubmit || (async () => {}))} 
+  return <form
+		className={className} 
+		onSubmit={handleSubmit(onSubmit)} 
 		style={style}
 	>	
-
 		{ fields.map((field: any, i) => 
 			Array.isArray(field) ? 
-				<div { ...typeof field[0] === 'string' && { className: field[0] } } key={i}>
+				<div className={`form-row ${i} ${rowClassName}`} key={i}>
 					{ field.map(subField => 
 						typeof subField !== 'string' ? generateField(subField, `${i}${subField.name}`) : <></>
 					)}

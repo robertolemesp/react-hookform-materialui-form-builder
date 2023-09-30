@@ -1,8 +1,12 @@
 form {
+    display: flex;
+    flex-flow: column;
     border-radius: 5px;
     overflow-y: auto;
     scrollbar-color: black lightgray;
     scrollbar-width: thin;
+
+    .form-row { display: flex; }
     
     .field-group {
         display: flex;

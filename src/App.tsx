@@ -1,8 +1,8 @@
 
 import React, { type FC } from 'react'
-import type { IFormField } from './shared/components/form/field/Field'
+import type { IFormField } from './shared/components/form/field'
 
-import CustomForm from './shared/components/form/Form'
+import CustomForm from './shared/components/form'
 
 import './App.scss'
 

@@ -1,24 +1,19 @@
 
 import React, { FC, CSSProperties, ReactNode } from 'react'
-import { Button as MUIButton } from '@mui/material'
-import Loader from '../loader/Loader'
-
-
-import './Button.scss'
+import { CircularProgress, Button as MUIButton } from '@mui/material'
 
 interface ButtonProps {
-  className?: string
   children?: ReactNode
+  className?: string
   onClick: () => void
   style?: CSSProperties
-  type?: string
   disabled?: boolean
   loading?: boolean
 }
 
-const Button: FC<ButtonProps> = ({ children, onClick, type, disabled, loading, style }: ButtonProps): JSX.Element => 
+const Button: FC<ButtonProps> = ({ children, onClick, className, disabled, loading, style }: ButtonProps): JSX.Element => 
   <MUIButton
-    className={className} 
+    className={className}
     style={{ 
       background: 'black',
       color: 'white',
@@ -29,14 +24,7 @@ const Button: FC<ButtonProps> = ({ children, onClick, type, disabled, loading, s
     onClick={onClick} 
     disabled={disabled}
   >
-    { loading ? 
-      <Loader 
-        width={27} 
-        height={27}
-        containerStyle={{ marginTop: 5 }} 
-      /> 
-    : 
-      children }
+    { loading ? <CircularProgress size={30} style={{ color: 'white' }} /> : children }
   </MUIButton>
 
 export default Button
