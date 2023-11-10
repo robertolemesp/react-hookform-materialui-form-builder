@@ -47,7 +47,7 @@ const TextField: FC<TextFieldProps> = ({ className, type, field, label, disabled
     multiline={multiline}
     onKeyDown={(event: KeyboardEvent<HTMLInputElement>) => handleOnFieldKeyDown(event, type)}
     style={{ 
-      minHeight: 60, 
+      minHeight: 54,
       width: '100%', 
       ...fieldStyle 
     }}

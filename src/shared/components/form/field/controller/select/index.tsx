@@ -84,7 +84,11 @@ const SelectField: FC<SelectFieldProps> = (
         input: <OutlinedInput id='select-multiple-chip' label='Chip' />,
         value: selectValue
       }) }
-      style={{ width: '100%', ...fieldStyle }}
+      style={{
+        minHeight: 57,
+        width: '100%', 
+        ...fieldStyle 
+      }}
       multiple={multiple}
       MenuProps={SelectMenuOptions}
       disabled={disabled}

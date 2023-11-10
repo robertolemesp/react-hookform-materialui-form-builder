@@ -91,7 +91,7 @@ const CustomForm: FC<FormProps> = ({ className, rowClassName, fields, onChange, 
 	>	
 		{ fields.map((field: any, i) => 
 			Array.isArray(field) ? 
-				<div className={`form-row ${i} ${rowClassName}`} key={i}>
+				<div className={`form-row ${i} ${rowClassName || ''}`} key={i}>
 					{ field.map(subField => 
 						typeof subField !== 'string' ? generateField(subField, `${i}${subField.name}`) : <></>
 					)}
