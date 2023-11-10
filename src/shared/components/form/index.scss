@@ -6,7 +6,10 @@ form {
     scrollbar-color: black lightgray;
     scrollbar-width: thin;
 
-    .form-row { display: flex; }
+    .form-row { 
+        display: flex;
+        align-items: flex-end;
+    }
     
     .field-group {
         display: flex;
