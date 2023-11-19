@@ -3,11 +3,11 @@ import { IconButton, TextField as MUITextField } from '@mui/material'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import type { FieldValues, ControllerRenderProps, FieldPath } from 'react-hook-form'
 
-import type { FormFielType } from '../../index'
+import type { FormFieldType } from '../../index'
 
 interface TextFieldProps {
   className?: string
-  type: Partial<FormFielType>
+  type: Partial<FormFieldType>
   field: ControllerRenderProps<FieldValues, FieldPath<any>>
   label: string
   disabled?: boolean
@@ -23,7 +23,7 @@ const TextField: FC<TextFieldProps> = ({ className, type, field, label, disabled
 
 	const handlePasswordExplicityIconClick = () => setIsPasswordExplicit(!isPasswordExplicit)
 
-  const handleOnFieldKeyDown = (event: KeyboardEvent<HTMLInputElement>, type: Partial<FormFielType>) => {
+  const handleOnFieldKeyDown = (event: KeyboardEvent<HTMLInputElement>, type: Partial<FormFieldType>) => {
     if (
       type === 'number' &&
       !(event.key === 'ArrowLeft' || event.key === 'ArrowRight' || event.key === 'Backspace' || /^[0-9]+$/.test(event.key))
