@@ -54,7 +54,8 @@ const TextField: FC<TextFieldProps> = ({ className, type, field, label, disabled
     { ...(type === 'date' && { InputLabelProps: { shrink: true } }) }
     { ...{ 
         ...field, 
-        value: formatFn ? formatFn(field.value) : field.value 
+        value: formatFn ? formatFn(field.value) : field.value,
+        onChange: event => field.onChange(type === 'number' ? parseInt(event.target.value, 10) : event.target.value)
       }
     }
   />
