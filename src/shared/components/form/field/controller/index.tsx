@@ -12,7 +12,7 @@ import RadioGroupField from './radio'
 interface ControllerFieldProps {
   className?: string
   name: string
-  type: 'text' | 'number' | 'date' | 'password' | 'select' | 'checkbox' | 'radioGroup'
+  type: 'text' | 'number' | 'date' | 'time' | 'password' | 'select' | 'checkbox' | 'radioGroup'
   label: string
   disabled: boolean
   multiline: boolean
@@ -38,7 +38,7 @@ const ControllerField: FC<ControllerFieldProps> = (
       defaultValue={formatFn ? formatFn(defaultValue) : defaultValue}
       rules={rules}
       render={({ field }) =>
-        ['text', 'number', 'date', 'password'].includes(type) ? 
+        ['text', 'number', 'date', 'time', 'password'].includes(type) ? 
           <TextField 
             className={className}
             type={type}
