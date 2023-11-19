@@ -16,12 +16,12 @@ export interface FieldOptions {
 	value: any
 }
 
-export type FormFielType = 'text' | 'number' | 'date' | 'time' | 'password' | 'select' | 'checkbox' | 'radioGroup' | 'submit' | 'element'
+export type FormFieldType = 'text' | 'number' | 'date' | 'time' | 'password' | 'select' | 'checkbox' | 'radioGroup' | 'submit' | 'element'
 
 export interface IFormField {
 	className?: string
 	name?: string
-	type: FormFielType
+	type: FormFieldType
 	label?: string
 	disabled?: boolean
 	checked?: boolean
