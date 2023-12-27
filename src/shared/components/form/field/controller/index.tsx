@@ -8,7 +8,6 @@ import SelectField from './select'
 import CheckBoxField from './checkbox'
 import RadioGroupField from './radio'
 
-
 interface ControllerFieldProps {
   className?: string
   name: string
@@ -18,6 +17,7 @@ interface ControllerFieldProps {
   multiline: boolean
   multiple: boolean
   options: FieldOptions[]
+  radioRow?: boolean
   control?: Control<FieldValues, FieldPath<any>>
   defaultValue: any
   containerStyle: CSSProperties
@@ -29,8 +29,8 @@ interface ControllerFieldProps {
 
 const ControllerField: FC<ControllerFieldProps> = (
   { 
-    className, name, type, label, disabled, multiline, multiple, options, control,
-    defaultValue, containerStyle, fieldStyle, formatFn, onChange, rules 
+    className, name, type, label, disabled, multiline, multiple, options, radioRow,
+    control, defaultValue, containerStyle, fieldStyle, formatFn, onChange, rules 
   }): JSX.Element => 
     <Controller
       name={name}
@@ -76,12 +76,13 @@ const ControllerField: FC<ControllerFieldProps> = (
         : type === 'radioGroup' && options?.length ?
           <RadioGroupField
             className={className} 
+            row={radioRow}
             label={label}
             field={field}
             fieldStyle={fieldStyle}
             options={options}
           />
-        : <></> // Caso um tipo inexistente seja passado
+        : <></> // If a unexistent type is passed
       }
     />
 

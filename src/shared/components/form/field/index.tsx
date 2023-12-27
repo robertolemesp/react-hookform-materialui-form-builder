@@ -26,6 +26,7 @@ export interface IFormField {
 	disabled?: boolean
 	checked?: boolean
 	selected?: boolean
+	radioRow?: boolean
 	options?: FieldOptions[]
 	multiple?: boolean
 	multiline?: boolean
@@ -55,6 +56,7 @@ const FormField: FC<FormFieldProps> = ({
 		disabled = false, 
 		multiple = false, 
 		multiline = false,
+		radioRow = false,
 		options = [],
 		rules,
 		element,
@@ -94,6 +96,7 @@ const FormField: FC<FormFieldProps> = ({
 				disabled={disabled}
 				multiline={multiline}
 				multiple={multiple}
+				radioRow={radioRow}
 				options={options}
 				control={control}
 				defaultValue={defaultValue}
