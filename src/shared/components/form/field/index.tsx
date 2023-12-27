@@ -73,7 +73,7 @@ const FormField: FC<FormFieldProps> = ({
 }: FormFieldProps) => {
 	
 	return <div 
-		className={`field ${type}`}
+		className={`field ${type} ${error ? 'error' : ''}`}
 		style={containerStyle}
 	>
 		{ type === 'element' ? 

@@ -73,7 +73,18 @@ const App: FC = (): JSX.Element => {
       {
         type: 'text',
         name: 'textField',
-        label: 'Text One'
+        label: 'Text One',
+        rules: { required: true }
+      },
+      {
+        type: 'select',
+        name: 'selectField',
+        label: 'Select',
+        rules: { required: true },
+        options: [
+          { label: 'Option One', value: 1 },
+          { label: 'Option Two', value: 2 }
+        ]
       },
       {
         type: 'text',
@@ -125,7 +136,7 @@ const App: FC = (): JSX.Element => {
       onSubmit={handleFormSubmit}
       style={{ height: '100%', width: '100%' }}
     />
-    <h1>Form with Row</h1>
+    <h1>Form with rows</h1>
     <CustomForm
       fields={rowFormFields}
       onSubmit={handleFormSubmit}

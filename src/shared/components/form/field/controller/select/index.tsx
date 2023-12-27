@@ -21,8 +21,13 @@ const SelectField: FC<SelectFieldProps> = (
   { className, label, field, multiple, defaultValue, onChange, disabled, fieldStyle, options }
   ): JSX.Element => {
   const [ selectValue, setSelectValue ] = useState<any>(Array.isArray(defaultValue) ? defaultValue : [])
+
   const ITEM_HEIGHT = 48
+
   const ITEM_PADDING_TOP = 8
+
+  const SELECT_FIELD_HEIGHT = 54
+
   const SelectMenuOptions = {
     PaperProps: {
       style: {
@@ -85,7 +90,7 @@ const SelectField: FC<SelectFieldProps> = (
         value: selectValue
       }) }
       style={{
-        minHeight: 57,
+        height: SELECT_FIELD_HEIGHT,
         width: '100%', 
         ...fieldStyle 
       }}

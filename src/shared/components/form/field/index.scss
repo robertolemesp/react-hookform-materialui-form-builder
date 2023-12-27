@@ -4,13 +4,7 @@
 	align-items: flex-start;
 	flex: 1;
 	min-width: 125px;
-	margin: 0 5px;
-
-	&:not(.field-group .field) {
-		margin-top: 15px;
-	}
-
-	&.submit { margin-top: auto; }
+	margin: 15px 5px 0;
 	
 	small { 
 		color: red; 

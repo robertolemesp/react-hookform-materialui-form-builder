@@ -8,10 +8,15 @@ form {
 
   .form-row { 
     display: flex;
-    align-items: flex-end;
+    flex-wrap: wrap;
+    align-items: center;
 
     .field {
-      flex: 1
+      flex: 1;
+
+      &.error { margin-top: 30px; }
+
+      &.select { transform: translateY(-11px); }
     }
   }
 }
