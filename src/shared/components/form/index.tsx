@@ -28,8 +28,12 @@ const CustomForm: FC<FormProps> = ({ className, rowClassName, fields, onChange, 
 		mode: "onChange"
 	})
 
-	const errorMessagesByField: FieldErrorMessage = { username: 'Informe um email válido', quantity: 'Quantidade máxima excedida.' }
-	const errorMessagesByErrorType: FieldErrorMessage = { required: 'Campo obrigatório.' }
+	const errorMessagesByField: FieldErrorMessage = { } // Insert here desired field name for custom error message to the field
+	const errorMessagesByErrorType: FieldErrorMessage = { 
+		required: 'Field is required.', 
+		min: 'Field value is less than minimun value',
+		max: 'Field value is greater than maximun value',
+	}
 	
 	const handleFormFieldChange = (field: string, value: any, selectOptionIndex?: number) => { 
 		if(onChange) {
