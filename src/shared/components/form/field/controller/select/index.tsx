@@ -97,8 +97,8 @@ const SelectField: FC<SelectFieldProps> = (
       { options.map((option: FieldOptions, i: number) => 
         <MenuItem 
           key={i} 
-          value={option.value.toString()} 
-          onClick={() => handleSelectOptionClick(field.name, option.value.toString(), i)}
+          value={option.value} 
+          onClick={() => handleSelectOptionClick(field.name, option.value, i)}
         >
           {option.label}
         </MenuItem>) 
