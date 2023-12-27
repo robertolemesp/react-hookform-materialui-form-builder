@@ -7,11 +7,12 @@ import TextField from './text'
 import SelectField from './select'
 import CheckBoxField from './checkbox'
 import RadioGroupField from './radio'
+import FileField from './file'
 
 interface ControllerFieldProps {
   className?: string
   name: string
-  type: 'text' | 'number' | 'date' | 'time' | 'password' | 'select' | 'checkbox' | 'radioGroup'
+  type: 'text' | 'number' | 'date' | 'time' | 'password' | 'select' | 'checkbox' | 'radioGroup' | 'file'
   label: string
   disabled: boolean
   multiline: boolean
@@ -81,6 +82,15 @@ const ControllerField: FC<ControllerFieldProps> = (
             field={field}
             fieldStyle={fieldStyle}
             options={options}
+          />
+        : type === 'file' ?
+          <FileField 
+            label={label}
+            field={field}
+            disabled={disabled}
+            containerStyle={containerStyle}
+            fieldStyle={fieldStyle}
+            onFileSelect={(file: File | null) => onChange && onChange(field.name, file)}
           />
         : <></> // If a unexistent type is passed
       }

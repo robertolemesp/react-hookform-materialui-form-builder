@@ -16,7 +16,7 @@ export interface FieldOptions {
 	value: any
 }
 
-export type FormFieldType = 'text' | 'number' | 'date' | 'time' | 'password' | 'select' | 'checkbox' | 'radioGroup' | 'submit' | 'element'
+export type FormFieldType = 'text' | 'number' | 'date' | 'time' | 'password' | 'select' | 'checkbox' | 'radioGroup' | 'file' | 'submit' | 'element'
 
 export interface IFormField {
 	className?: string

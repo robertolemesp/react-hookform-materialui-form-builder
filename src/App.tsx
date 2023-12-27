@@ -53,6 +53,11 @@ const App: FC = (): JSX.Element => {
       ]
     },
     {
+      type: 'file',
+      name: 'fileField',
+      label: 'Select file'
+    },
+    {
       type: 'element',
       element: <b>Custom Element</b>
     },

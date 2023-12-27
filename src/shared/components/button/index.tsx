@@ -5,7 +5,7 @@ import { CircularProgress, Button as MUIButton } from '@mui/material'
 interface ButtonProps {
   children?: ReactNode
   className?: string
-  onClick: () => void
+  onClick?: () => void
   style?: CSSProperties
   disabled?: boolean
   loading?: boolean
